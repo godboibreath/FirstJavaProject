@@ -8,7 +8,8 @@ import java.util.Scanner;
 import java.util.Timer;
 
 public class Tasks {
-//    todo rubtsov разбить код на части
+    public static final String staticDirectory = "./static";
+
     public static String string = "Hello world!!!";
 
     public static void printHello() {
@@ -29,36 +30,7 @@ public class Tasks {
         return num == 0 ? 0 : num > 0 ? 1 : -1;
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        int x = 10;
-        double y = 100.6;
-        System.out.println("Sum x + y = " + (x + y));
-        String name = "Oleg", secName = "Rubtsov";
-        System.out.println("My name: " + name + " " + secName);
-        // todo rubtsov comment
-        /*
-         * multiline
-         * comment
-         */
-        printHello();
-        for (int i = 1; i <= 10; i++) {
-            System.out.print(i + "\t");
-        }
-        System.out.print("\n");
-        new Car("CarMake", 1999).displayInfo();
-        printUpperCaseString();
-        replaceString();
-        int[] simpleArray = {1, 2, 3};
-        simpleArray[2] = 5;
-        for (int i = 0; i < simpleArray.length; i++) {
-            System.out.print(simpleArray[i] + "\t");
-        }
-        System.out.print('\n');
-        System.out.println("hello".equals("world"));
-        System.out.println(name.length() > 0 && secName.length() > 0);
-        System.out.println(name.contains("oleg") || secName.contains("ov"));
-        final int result = sign(-10);
-        System.out.println(x);
+    public static void inputUserName() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Insert your name: ");
         String userName = scan.nextLine();
@@ -73,6 +45,26 @@ public class Tasks {
                 System.out.println("Hello, " + userName);
             }
         }
+    }
+
+    public static void simpleCode() {
+        int x = 10;
+        double y = 100.6;
+        System.out.println("Sum x + y = " + (x + y));
+        String name = "Oleg", secName = "Rubtsov";
+        System.out.println("My name: " + name + " " + secName);
+        for (int i = 1; i <= 10; i++) {
+            System.out.print(i + "\t");
+        }
+        System.out.print("\n");
+        int[] simpleArray = {1, 2, 3};
+        simpleArray[2] = 5;
+        for (int i = 0; i < simpleArray.length; i++) {
+            System.out.print(simpleArray[i] + "\t");
+        }
+        System.out.print("\n");
+        final int result = sign(-10);
+        System.out.println(result);
         int loosingData = (int) (y / x);
         System.out.println("loosingData: " + loosingData);
         int param = 1;
@@ -83,25 +75,42 @@ public class Tasks {
             param++;
         }
         System.out.print('\n');
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new MyTimer(timer), 0, 1000);
         int[] arr = new int[5];
         arr[2] = 99;
-        Car[] carArray = {new Car("Toyota", 1999), new Car("Mazda", 2000), new Car("Nissan", 1995)};
-        for(Field field:carArray[0].getClass().getDeclaredFields()) {
-            System.out.println(field.getName());
-        }
-        for(int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             arr[i] = new Random().nextInt(10);
         }
+        Car[] carArray = {new Car("Toyota", 1999), new Car("Mazda", 2000), new Car("Nissan", 1995)};
         System.out.println(Arrays.toString(arr));
-        FileOutputStream outputStream = new FileOutputStream("./test.ser");
-        FileInputStream inputStream = new FileInputStream("./test.ser");
+    }
+
+    public static void timerCode() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new MyTimer(timer), 0, 1000);
+    }
+
+    public static <T> T serializedCode(T obj) throws IOException, ClassNotFoundException {
+        final String serDirectory = staticDirectory + "/test.ser";
+        FileOutputStream outputStream = new FileOutputStream(serDirectory);
+        FileInputStream inputStream = new FileInputStream(serDirectory);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
         ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-        objectOutputStream.writeObject(carArray[0]);
+        objectOutputStream.writeObject(obj);
         objectOutputStream.close();
-        Car serCar = (Car) objectInputStream.readObject();
-        serCar.displayInfo();
+        T ser = (T) objectInputStream.readObject();
+        return ser;
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        simpleCode();
+        printHello();
+        Car car = new Car("CarMake", 1999);
+        car.displayInfo();
+        printUpperCaseString();
+        replaceString();
+        for (Field field : car.getClass().getDeclaredFields()) {
+            System.out.println(field.getName());
+        }
+        Car serCar = serializedCode(car);
     }
 }
