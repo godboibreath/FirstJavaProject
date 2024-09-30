@@ -1,6 +1,9 @@
 package someSimpleTasks;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
+    private static final long serialVersionUID = 1l;
     private String make;
     private int year;
     public Car() {}
