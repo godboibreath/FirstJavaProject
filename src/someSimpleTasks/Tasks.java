@@ -82,6 +82,26 @@ public class Tasks {
         }
         Car[] carArray = {new Car("Toyota", 1999), new Car("Mazda", 2000), new Car("Nissan", 1995)};
         System.out.println(Arrays.toString(arr));
+        System.out.println("Formatted string info: name - %s, age - %d".format("Oleg", 25));
+        int[][] doubleArray = new int[10][10];
+        for (int[] item : doubleArray) {
+            for (int i : item)
+                System.out.print(i + "\t");
+            System.out.print("\n");
+        }
+        System.out.println(new Outer().getInnerName());
+        System.out.println(new Outer.Static().getName());
+        Box<Car> b = new Box<>(carArray[0]);
+        carArray[0].setMake("CustomMake");
+        b.getContain().displayInfo();
+        System.out.println(new NumberBox<Integer>(10).getNumber());
+    }
+
+    public static int factorial(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        return n * factorial(n - 1);
     }
 
     public static void timerCode() {
@@ -99,6 +119,32 @@ public class Tasks {
         objectOutputStream.close();
         T ser = (T) objectInputStream.readObject();
         return ser;
+    }
+
+    public static void weekCode(Day day) {
+        switch (day) {
+            case Sunday -> {
+                System.out.println("Is sunday");
+            }
+            case Monday -> {
+                System.out.println("Is Monday");
+            }
+            case Tuesday -> {
+                System.out.println("Is Tuesday");
+            }
+            case Wednesday -> {
+                System.out.println("Is Whednesday");
+            }
+            case Thursday -> {
+                System.out.println("Is Thursday");
+            }
+            case Friday -> {
+                System.out.println("Is Friday");
+            }
+            case Saturday -> {
+                System.out.println("Is Saturday");
+            }
+        }
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
